@@ -1,10 +1,17 @@
 import axios from "axios";
 import {MazeMove} from "../types/Move";
 
-export async function createMaze(width: number, height: number, difficulty: number, name: string) {
+function randomMazeLength() {
+    return Math.floor(Math.random() * 25) + 15;
+}
+
+export async function createMaze(name: string) {
+    const randomWidth = randomMazeLength();
+    const randomHeight = randomMazeLength();
+    const difficulty = 3;
     return axios.post('https://ponychallenge.trustpilot.com/pony-challenge/maze', {
-        "maze-width": width,
-        "maze-height": height,
+        "maze-width": randomWidth,
+        "maze-height": randomHeight,
         "maze-player-name": name,
         "difficulty": difficulty
     })

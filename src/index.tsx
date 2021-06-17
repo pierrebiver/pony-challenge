@@ -1,12 +1,13 @@
 import {render} from "react-dom";
 import App from "./app";
-import '@fontsource/roboto';
+import {Provider} from "react-redux";
+import '../semantic/dist/semantic.min.css';
 
+//TODO add store
 render(
-    <>
-        <div>
-            <App/>
-        </div>
-    </>,
+    <div>
+        <App/>
+    </div>
+    ,
     document.getElementById("app")
 );

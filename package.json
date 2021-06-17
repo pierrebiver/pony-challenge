@@ -6,13 +6,17 @@
     "dev": "poi --serve"
   },
   "devDependencies": {
+    "@types/react-redux": "^7.1.16",
+    "gulp": "^4.0.2",
     "poi": "^12.4.2"
   },
   "dependencies": {
-    "@fontsource/roboto": "^4.4.5",
-    "@material-ui/core": "^4.11.4",
-    "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
+    "fomantic-ui": "^2.8.7",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
+    "semantic-ui-react": "^2.0.3"
   }
 }

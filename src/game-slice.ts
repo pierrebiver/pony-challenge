@@ -11,6 +11,7 @@ const initialState: Game = {
 };
 
 export const selectGame = (state: RootState) => state.game;
+export const selectGameStatus = (state: RootState) => state.game.gameStatus;
 
 export const makeMove = createAsyncThunk('game/makeMove',
     async (payload: { mazeId: string, move: Direction }) => {
@@ -44,7 +45,7 @@ function fetchNewMazeFulfilled() {
             domokun: payload.domokun,
             pony: payload.pony,
             exit: payload["end-point"],
-            id: payload["maze-id"],
+            id: payload["maze_id"],
             data: buildBlocks(payload),
             size: {width: payload.size[0], height: payload.size[1]}
         }

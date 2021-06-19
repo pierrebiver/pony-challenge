@@ -2,8 +2,11 @@ import axios from "axios";
 import {Direction} from "../types/Game";
 import {RawMaze} from "../types/RawMaze";
 
+const maxLengthMaze = 25;
+const minLengthMaze = 15
+
 function randomMazeLength() {
-    return Math.floor(Math.random() * (25 - 15 +1)) + 15;
+    return Math.floor(Math.random() * (maxLengthMaze - minLengthMaze + 1)) + minLengthMaze;
 }
 
 export async function createMaze() {

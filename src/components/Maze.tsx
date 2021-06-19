@@ -1,9 +1,9 @@
 import * as React from 'react'
-import {useEffect} from 'react'
-import {Block as BlockType, LoadingStatus} from "../types/Game";
+import {useEffect, useState} from 'react'
+import {Block as BlockType, GameStatus, LoadingStatus} from "../types/Game";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchNewMaze, selectGame} from "../game-slice";
-import {Loader} from "semantic-ui-react";
+import {fetchNewMaze, selectGame, selectGameStatus} from "../game-slice";
+import {Button, Loader, Modal} from "semantic-ui-react";
 
 
 export const Maze = () => {
@@ -20,6 +20,7 @@ export const Maze = () => {
         return <Loader active/>
     } else if (game.loadingStatus === LoadingStatus.loaded) {
         return <>
+            <GameEndedModal/>
             {game.maze.data.map((b, i) => <BlockRow key={i} blocks={b}/>)}
         </>
     }
@@ -41,4 +42,25 @@ const Block = ({block}: { block: BlockType }) => {
         {westWall} &nbsp;
         {northWall}
     </div>
+}
+
+const GameEndedModal = () => {
+    const dispatch = useDispatch();
+    const gameStatus = useSelector(selectGameStatus);
+    const isGameOver = gameStatus === GameStatus.gameWon || gameStatus === GameStatus.gameLost;
+    const [open, setOpen] = useState(isGameOver);
+    const header = gameStatus === GameStatus.gameWon ? "Congratulations ! You saved Fluttershy" : "Oh no the Domokun" +
+        " caught you !";
+
+    return <Modal open={open} onClose={() => setOpen(false)} style={{textAlign: "center"}}>
+        <Modal.Header>{header}</Modal.Header>
+        <Modal.Content>
+            <Button primary size="big" onClick={() => {
+                dispatch(fetchNewMaze);
+                setOpen(false);
+            }}>
+                Start a new game
+            </Button>
+        </Modal.Content>
+    </Modal>
 }

@@ -6,15 +6,16 @@
     "dev": "poi --serve"
   },
   "devDependencies": {
+    "@types/react": "^17.0.11",
     "@types/react-redux": "^7.1.16",
     "gulp": "^4.0.2",
     "poi": "^12.4.2"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.0",
     "axios": "^0.21.1",
     "fomantic-ui": "^2.8.7",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "semantic-ui-react": "^2.0.3"

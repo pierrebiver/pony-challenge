@@ -3,11 +3,12 @@ import {Commands} from "./components/Commands";
 import Instructions from "./components/Instructions";
 import Header from "./components/Header";
 import {Grid, GridRow} from "semantic-ui-react";
+import {Maze} from "./components/Maze";
 
 
 export default () => {
 
-    return <Grid container verticalAlign="middle" centered relaxed style={{marginTop: 60}}>
+    return <Grid container stackable verticalAlign="middle" centered relaxed style={{marginTop: 60}}>
         <GridRow>
             <Header/>
         </GridRow>
@@ -16,6 +17,9 @@ export default () => {
         </GridRow>
         <GridRow>
             <Commands/>
+        </GridRow>
+        <GridRow>
+            <Maze/>
         </GridRow>
     </Grid>;
 }

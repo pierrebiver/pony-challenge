@@ -1,13 +1,14 @@
 import {render} from "react-dom";
 import App from "./app";
-import {Provider} from "react-redux";
 import '../semantic/dist/semantic.min.css';
+import {Provider} from "react-redux";
+import {store} from "./store";
 
-//TODO add store
+
 render(
-    <div>
+    <Provider store={store}>
         <App/>
-    </div>
+    </Provider>
     ,
     document.getElementById("app")
 );

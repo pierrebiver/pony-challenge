@@ -8,8 +8,8 @@ import {Direction, GameStatus} from "../types/Game";
 export const Commands = () => {
     const game = useSelector(selectGame);
     const dispatch = useDispatch();
-    const onCommandClick = (move: Direction) => () => dispatch(makeMove({mazeId: game.maze.id, move}));
 
+    const onCommandClick = (move: Direction) => () => dispatch(makeMove({mazeId: game.maze.id, move}));
     const noGameInProgress = game.gameStatus !== GameStatus.gameInProgress;
 
     return <Grid stackable verticalAlign='middle' columns={5} centered>

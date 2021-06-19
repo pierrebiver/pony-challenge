@@ -49,6 +49,7 @@ function fetchNewMazeFulfilled() {
             size: {width: payload.size[0], height: payload.size[1]}
         }
         state.loadingStatus = LoadingStatus.loaded;
+        state.gameStatus = GameStatus.gameInProgress;
         state.maze = maze;
     };
 }

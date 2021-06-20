@@ -12,7 +12,7 @@ export const Commands = () => {
     const onCommandClick = (move: Direction) => () => dispatch(makeMove({mazeId: game.maze.id, move}));
     const noGameInProgress = game.gameStatus !== GameStatus.gameInProgress;
 
-    return <Grid stackable verticalAlign='middle' columns={5} centered>
+    return <Grid  verticalAlign='middle' columns={3} centered>
         <GridRow>
             <GridColumn width={1}>
                 <Button onClick={onCommandClick(Direction.west)} disabled={noGameInProgress} icon="arrow left"/>

@@ -26,10 +26,3 @@ but we are in the magical land of Equestria so everything should be fine :)
 ### Folder structure
 As this project is rather small the folder structure is different from what I would do normally. I normally work on 
 a "feature" base folder structure, trying to keep every related files in the same folder (types, slices, component).
-
-### Responsiveness
-Half of the web traffic is coming from mobile phone, so responsiveness is key in most application. But displaying a 
-maze on a phone is not the easiest challenge :) 
-
-### Usability
-the keyboard could be used to navigate the maze more easily. 

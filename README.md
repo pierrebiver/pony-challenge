@@ -2,8 +2,8 @@
 
 > Created by [create-poi-app](https://poi.js.org).
 
-You can play on the online version [here]()
-or run the following script locally
+## How to start the project
+ Run the following script locally
 ```
 npm install --ignore-scripts
 npm run dev

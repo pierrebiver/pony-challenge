@@ -18,7 +18,7 @@ export default () => {
         <GridRow>
             <Commands/>
         </GridRow>
-        <GridRow>
+        <GridRow style={{marginBottom: 60}}>
             <Maze/>
         </GridRow>
     </Grid>;

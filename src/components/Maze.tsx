@@ -3,7 +3,9 @@ import {useEffect, useState} from 'react'
 import {Block as BlockType, GameStatus, LoadingStatus} from "../types/Game";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchNewMaze, selectGame, selectGameStatus} from "../game-slice";
-import {Button, Loader, Modal} from "semantic-ui-react";
+import {Button, Grid, Icon, Loader, Modal} from "semantic-ui-react";
+import SvgDomokun from "./Domokun";
+import SvgUnicorn from "./Unicorn";
 
 
 export const Maze = () => {
@@ -16,48 +18,58 @@ export const Maze = () => {
         }
     }, [dispatch, game.loadingStatus]);
 
-    if (game.loadingStatus === LoadingStatus.loading) {
-        return <Loader active/>
-    } else if (game.loadingStatus === LoadingStatus.loaded) {
-        return <>
-            <GameEndedModal/>
-            {game.maze.data.map((b, i) => <BlockRow key={i} blocks={b}/>)}
-        </>
+    return <>
+        <Loader active={game.loadingStatus === LoadingStatus.loading}/>
+        <GameEndedModal/>
+        <Grid>
+            {game?.maze?.data.map((b, i) => <BlockRow buildSouth={i === game.maze.size.height - 1} key={i}
+                                                      blocks={b}/>)}
+        </Grid>
+    </>
+}
+
+const BlockRow = ({blocks, buildSouth}: { blocks: BlockType[], buildSouth: boolean }) => {
+    return <Grid.Row stretched style={{padding: 0, height: 25, flexWrap: "nowrap"}}>
+        {blocks.map((b, j) => <Block key={j} buildSouth={buildSouth} buildEast={j === blocks.length - 1} block={b}/>)}
+    </Grid.Row>
+}
+
+const Block = ({block, buildEast, buildSouth}: { block: BlockType, buildSouth: boolean, buildEast: boolean }) => {
+    const westWall = block.westWallBuilt ? 'solid' : "none";
+    const northWall = block.northWallBuilt ? 'solid' : "none";
+    const eastWall = buildEast ? 'solid' : "none";
+    const southWall = buildSouth ? 'solid' : "none";
+
+    return <Grid.Column width={1} style={{borderStyle: `${northWall} ${eastWall} ${southWall} ${westWall}`}}>
+        <Player block={block}/>
+    </Grid.Column>
+}
+
+const Player = ({block}: { block: BlockType }) => {
+    if (block.isDomokunHere) {
+        return <SvgDomokun width={30} height={30}/>
+    } else if (block.isPonyHere) {
+        return <SvgUnicorn width={30} height={30}/>
+    } else if (block.isExitHere) {
+        return <Icon name="log out"/>
     }
 
     return <></>;
-}
-
-const BlockRow = ({blocks}: { blocks: BlockType[] }) => (
-    <div>
-        {blocks.map((b, j) => <Block key={j} block={b}/>)}
-    </div>
-)
-
-const Block = ({block}: { block: BlockType }) => {
-    const westWall = block.westWallBuilt ? '+\n|\n+' : undefined;
-    const northWall = block.westWallBuilt ? '+---+' : undefined;
-
-    return <div style={{whiteSpace: "pre-wrap"}}>
-        {westWall} &nbsp;
-        {northWall}
-    </div>
 }
 
 const GameEndedModal = () => {
     const dispatch = useDispatch();
     const gameStatus = useSelector(selectGameStatus);
     const isGameOver = gameStatus === GameStatus.gameWon || gameStatus === GameStatus.gameLost;
-    const [open, setOpen] = useState(isGameOver);
+
     const header = gameStatus === GameStatus.gameWon ? "Congratulations ! You saved Fluttershy" : "Oh no the Domokun" +
         " caught you !";
 
-    return <Modal open={open} onClose={() => setOpen(false)} style={{textAlign: "center"}}>
+    return <Modal open={isGameOver} closeIcon style={{textAlign: "center"}}>
         <Modal.Header>{header}</Modal.Header>
         <Modal.Content>
             <Button primary size="big" onClick={() => {
-                dispatch(fetchNewMaze);
-                setOpen(false);
+                dispatch(fetchNewMaze());
             }}>
                 Start a new game
             </Button>

@@ -42,9 +42,9 @@ function fetchNewMazeFulfilled() {
         const payload = action.payload;
         const maze: Maze = {
             difficulty: payload.difficulty,
-            domokun: payload.domokun,
-            pony: payload.pony,
-            exit: payload["end-point"],
+            domokun: payload.domokun[0],
+            pony: payload.pony[0],
+            exit: payload["end-point"][0],
             id: payload["maze_id"],
             data: buildBlocks(payload),
             size: {width: payload.size[0], height: payload.size[1]}
@@ -56,19 +56,29 @@ function fetchNewMazeFulfilled() {
 }
 
 function buildBlocks(payload: RawMaze) {
-    const blocks: Block[][] = payload.data.map(_ => []);
+    const height = payload.size[1];
+    const width = payload.size[0];
+    const blocks: Block[][] = initializeBlocks(height);
 
-    for (let i = 0; i < payload.size[0]; i++) {
-        for (let j = 0; j < payload.size[1]; j++) {
-            const {northWallBuilt, westWallBuilt} = getWalls(payload.data[i + j]);
-            blocks[i].push({
-                westWallBuilt,
-                northWallBuilt,
-                isDomokunHere: i + j === payload.domokun,
-                isExitHere: i + j === payload["end-point"],
-                isPonyHere: i + j === payload.pony
-            })
-        }
+    for (let i = 0; i < payload.data.length; i++) {
+        const row = Math.floor(i / width);
+        const {northWallBuilt, westWallBuilt} = getWalls(payload.data[i]);
+        blocks[row].push({
+            westWallBuilt,
+            northWallBuilt,
+            isDomokunHere: i === payload.domokun[0],
+            isExitHere: i === payload["end-point"][0],
+            isPonyHere: i === payload.pony[0]
+        })
+    }
+
+    return blocks;
+}
+
+function initializeBlocks(size: number) {
+    const blocks = [];
+    for (let i = 0; i < size; i++) {
+        blocks.push([]);
     }
     return blocks;
 }
@@ -81,8 +91,8 @@ function getWalls(rawBlock: string[]) {
 
 function makeMoveFulfilled() {
     return (state: Game, action: PayloadAction<RawMaze>) => {
-        state.maze.domokun = action.payload.domokun;
-        state.maze.pony = action.payload.pony;
+        state.maze.domokun = action.payload.domokun[0];
+        state.maze.pony = action.payload.pony[0];
 
         if (state.maze.pony === state.maze.domokun) {
             state.gameStatus = GameStatus.gameLost;
